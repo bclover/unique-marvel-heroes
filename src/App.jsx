@@ -119,7 +119,12 @@ class App extends Component {
     return (
       <div className="App">
         <section className="all-heroes-list">
-          <h1 className="header">The SemanticBits Hero Sorting Challenge!</h1>
+          <img className="logo"
+               alt="SemanticBits"
+               src="https://semanticbits.com/wp-content/uploads/2018/01/logo-color.svg"
+               srcSet="https://semanticbits.com/wp-content/uploads/2018/01/logo-color.svg 1x, https://semanticbits.com/wp-content/uploads/2018/01/logo-color.svg 2x"
+               />
+          <h1 className="header">Hero Sorting Challenge!</h1>
           <h3>All Heroes (raw data)</h3>
           <ul className="heroes-list">
             {this.createAllHeroes()}

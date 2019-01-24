@@ -1,3 +1,7 @@
+body {
+  font-size: 20px;
+}
+
 ul {
   list-style-type: none;
 }
@@ -10,13 +14,18 @@ ul {
   text-align: center;
 }
 
+.logo {
+  max-height: 4rem;
+  padding-top: 1rem;
+}
+
 .all-heroes-list {
-  background-color: #f8faef;
+  background-color: #b4ddf0;
   padding: 1rem;
 }
 
 .sorted-heroes-list {
-  background-color: #e2f5e7;
+  background-color: #f5d09c;
   padding: 1rem;
 }
 
