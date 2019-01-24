@@ -1,13 +1,15 @@
-/*
-  THE CHALLENGE:
-  get an array of all people in the Marvel organization, with no duplicate last names,
-  sorted by id, and add a name field that is a combination of firstName + lastName
-*/
-
 import React, {Component} from 'react';
 import './App.css';
 
 class App extends Component {
+
+  /*
+    THE CHALLENGE:
+    -get an array of all people in the Marvel organization
+    -with no duplicate last names
+    -sorted by id,
+    -and add a name field that is a combination of firstName + lastName
+  */
 
   state = {
     data: [
@@ -42,15 +44,65 @@ class App extends Component {
           organization: 'Marvel'
         }
     ]
-};
+  };
 
-  getAllHeroes() {
+  createAllHeroes() {
     const allHeroes = this.state.data.map((hero) => {
       return (
-          <li key={hero.id}>{hero.firstName} {hero.lastName} ( {hero.organization} )</li>
+          <li key={hero.id}>
+            {hero.id} - {hero.firstName} {hero.lastName} ({hero.organization})
+          </li>
       )
     });
-    return allHeroes.sort((a, b) =>  a.key - b.key);
+    return allHeroes;
+  }
+
+  createMarvelHeroes(){
+
+    //Filter out heroes that belong to Marvel only
+    let marvelHeroes = this.state.data.filter(hero => hero.organization === 'Marvel');
+
+    //Sort the Marvel heroes by id
+    marvelHeroes.sort((a, b) =>  a.id - b.id);
+
+    //Remove heroes that have duplicate last names (keep only the first one)
+    marvelHeroes = this.removeDuplicatesBy(hero => hero.lastName, marvelHeroes);
+
+    //Add a new 'name' field to each Marvel hero
+    marvelHeroes = marvelHeroes.map(o => Object.assign({
+      name: `${o.firstName} ${o.lastName}`,
+    }, o));
+
+    //Log out the desired results to the console
+    console.log('Unique Marvel Heroes:', marvelHeroes);
+
+    //create and return the DOM elements to the render method
+    return this.createMarvelHeroesDOM(marvelHeroes);
+
+  }
+
+  createMarvelHeroesDOM(heroes) {
+    return heroes.map((hero) => {
+      return (
+          <li key={hero.id} className="marvel-li">
+            <div>
+              Hero ID: {hero.id}
+            </div>
+            <div>
+              First: {hero.firstName}
+            </div>
+            <div>
+              Last: {hero.lastName}
+            </div>
+            <div>
+              Name: {hero.name}
+            </div>
+            <div>
+              Organization: {hero.organization}
+            </div>
+          </li>
+      );
+    });
   }
 
   removeDuplicatesBy(keyFn, array) {
@@ -62,64 +114,21 @@ class App extends Component {
     });
   }
 
-  getUniqueMarvelHeroes() {
-
-    //just the Marvel heros
-    const marvelHeroes = this.state.data.filter(hero => hero.organization === 'Marvel');
-
-    //remove heroes with a duplicate last name
-    let uniqueMarvelHeroes = this.removeDuplicatesBy(
-        hero => hero.lastName, marvelHeroes
-    );
-
-    //sort the heroes by id
-    uniqueMarvelHeroes = uniqueMarvelHeroes.sort((a, b) =>  a.id - b.id);
-
-    //add a name property for each hero
-    uniqueMarvelHeroes = uniqueMarvelHeroes.map(o => Object.assign({
-      name: `${o.firstName} ${o.lastName}`,
-    }, o));
-
-    //log out the desired data to console
-    console.log('Unique Marvel Heroes:', uniqueMarvelHeroes);
-
-    //create the DOM elements
-    const uniqueMarvelHeroesDOM = uniqueMarvelHeroes.map((hero) => {
-      return (
-          <li key={hero.id} className="marvel-li">
-            <div>
-              First: {hero.firstName}
-            </div>
-            <div>
-              Last: {hero.lastName}
-            </div>
-            <div>
-              Name: {hero.name}
-            </div>
-            <div>
-              Organization:  {hero.organization}
-            </div>
-          </li>
-      )
-    });
-
-    return uniqueMarvelHeroesDOM;
-  }
-
+  // RENDER METHOD //
   render() {
     return (
       <div className="App">
-        <h1>Hero Sorting Challenge!</h1>
         <section className="all-heroes-list">
+          <h1 className="header">The SemanticBits Hero Sorting Challenge!</h1>
           <h3>All Heroes (raw data)</h3>
           <ul className="heroes-list">
-            {this.getAllHeroes()}
+            {this.createAllHeroes()}
           </ul>
         </section>
-        <section className="all-heroes-list">
-          <h3> Marvel Heroes With a Unique Last Name Sorted by Id and a Name Field Added</h3>
+        <section className="sorted-heroes-list">
+          <h3>Sorted Heroes:</h3>
           <ul className="heroes-list">
-            {this.getUniqueMarvelHeroes()}
+            {this.createMarvelHeroes()}
           </ul>
         </section>
       </div>

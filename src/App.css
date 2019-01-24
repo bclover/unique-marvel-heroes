@@ -1,9 +1,23 @@
+ul {
+  list-style-type: none;
+}
+
 .App {
+  text-align: left;
+}
+
+.header {
   text-align: center;
 }
 
-.heroes-list {
-  list-style-type: none;
+.all-heroes-list {
+  background-color: #f8faef;
+  padding: 1rem;
+}
+
+.sorted-heroes-list {
+  background-color: #e2f5e7;
+  padding: 1rem;
 }
 
 .marvel-li {
